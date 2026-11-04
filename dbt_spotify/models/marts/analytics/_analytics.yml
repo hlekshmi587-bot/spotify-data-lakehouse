@@ -1,0 +1,77 @@
+version: 2
+
+models:
+  - name: mart_country_profile
+    description: >
+      Country x chart type profile: size of the chart, streams, and the audio profile of matched tracks.
+      Filter is_global = false to compare countries.
+    data_tests:
+      - unique: {arguments: {column_name: "(country_key || '|' || chart_type)"}}
+    columns:
+      - name: country_key
+        data_tests:
+          - not_null
+          - relationships: {arguments: {to: ref('dim_country'), field: country_key}}
+      - name: track_attribute_coverage
+        description: "Share (0-1) of chart rows whose track has audio features. Low values = treat audio averages with care."
+        data_tests:
+          - accepted_range: {arguments: {min_value: 0, max_value: 1}}
+      - name: avg_danceability
+        data_tests:
+          - accepted_range: {arguments: {min_value: 0, max_value: 1}}
+      - name: avg_valence
+        data_tests:
+          - accepted_range: {arguments: {min_value: 0, max_value: 1}}
+
+  - name: mart_country_top_tracks
+    description: "Top 10 Top-200 tracks per country by total streams over the sampled dates."
+    data_tests:
+      - unique: {arguments: {column_name: "(country_key || '|' || streams_rank)"}}
+    columns:
+      - name: streams_rank
+        data_tests:
+          - accepted_range: {arguments: {min_value: 1, max_value: 10}}
+
+  - name: mart_seasonal_trends
+    description: "Season x chart type: popularity and audio characteristics."
+    data_tests:
+      - unique: {arguments: {column_name: "(season || '|' || chart_type)"}}
+    columns:
+      - name: data_volume
+        description: "ok (>=5000 entries) / limited (1000-4999) / insufficient (<1000). Most groups are insufficient because the sample covers very few dates."
+        data_tests:
+          - accepted_values: {arguments: {values: ['ok', 'limited', 'insufficient']}}
+      - name: season
+        data_tests:
+          - accepted_values: {arguments: {values: ['Winter', 'Spring', 'Summer', 'Autumn']}}
+
+  - name: mart_period_trends
+    description: "Year-month x chart type: popularity and audio characteristics over time."
+    data_tests:
+      - unique: {arguments: {column_name: "(year_month || '|' || chart_type)"}}
+
+  - name: mart_genre_performance
+    description: "Genre chart performance (weighted so multi-genre tracks are not double counted)."
+    columns:
+      - name: genre_name
+        data_tests: [unique, not_null]
+
+  - name: mart_artist_leaderboard
+    description: "Artists ranked by attributed streams and by number of countries reached."
+    columns:
+      - name: artist_key
+        data_tests: [unique, not_null]
+
+  - name: mart_track_longevity
+    description: "Per charted track: dates, countries, best rank, #1 count."
+    columns:
+      - name: track_key
+        data_tests: [unique, not_null]
+      - name: best_chart_rank
+        data_tests:
+          - accepted_range: {arguments: {min_value: 1, max_value: 200}}
+
+  - name: mart_chart_snapshot_summary
+    description: "Coverage of each snapshot date (entries, regions) per chart type."
+    data_tests:
+      - unique: {arguments: {column_name: "(chart_date || '|' || chart_type)"}}

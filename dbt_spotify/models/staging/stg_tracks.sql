@@ -1,0 +1,27 @@
+-- Staging: catalogue tracks (Silver), one row per track_id.
+select
+    track_id,
+    track_name,
+    artists,
+    artist_list,
+    primary_artist,
+    artist_count,
+    album_name,
+    popularity,
+    duration_ms,
+    explicit,
+    danceability,
+    energy,
+    key,
+    loudness,
+    mode,
+    speechiness,
+    acousticness,
+    instrumentalness,
+    liveness,
+    valence,
+    tempo,
+    time_signature,
+    primary_genre,
+    genre_count
+from {{ source('lakehouse', 'silver_tracks') }}
