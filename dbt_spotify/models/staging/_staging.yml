@@ -1,0 +1,31 @@
+version: 2
+
+models:
+  - name: stg_chart_entries
+    description: "Chart entries (Gold enriched) - one row per (date, region, chart type, rank)."
+    columns:
+      - name: chart_record_id
+        data_tests: [unique, not_null]
+      - name: chart_type
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ['top200', 'viral50']
+      - name: track_id
+        data_tests: [not_null]
+  - name: stg_tracks
+    description: "Catalogue tracks (Silver)."
+    columns:
+      - name: track_id
+        data_tests: [unique, not_null]
+  - name: stg_track_genres
+    description: "Track x genre pairs (Silver)."
+    data_tests:
+      - unique:
+          arguments:
+            column_name: "(track_id || '|' || genre)"
+  - name: stg_countries
+    description: "Country reference (Silver)."
+    columns:
+      - name: iso_alpha3
+        data_tests: [unique, not_null]
