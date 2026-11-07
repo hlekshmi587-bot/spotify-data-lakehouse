@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Great Expectations Data Docs - Spotify Lakehouse</title>
+    <style>
+        :root {
+            --bg: #0b0f19;
+            --surface: #111827;
+            --surface-card: #1f2937;
+            --border: #374151;
+            --text-primary: #f9fafb;
+            --text-secondary: #9ca3af;
+            --pass: #10b981;
+            --fail: #ef4444;
+            --brand: #1db954;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text-primary);
+            line-height: 1.5;
+            padding: 32px 16px;
+        }
+        .container { max-width: 1280px; margin: 0 auto; }
+        header {
+            background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 28px 32px;
+            margin-bottom: 28px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .header-title h1 { font-size: 26px; font-weight: 700; color: var(--text-primary); }
+        .header-title p { color: var(--text-secondary); font-size: 14px; margin-top: 4px; }
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+        .kpi-card {
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 20px;
+        }
+        .kpi-label { font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-secondary); }
+        .kpi-value { font-size: 32px; font-weight: 700; margin-top: 6px; }
+        .kpi-sub { font-size: 13px; color: var(--text-secondary); margin-top: 4px; }
+        .suite-card {
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            margin-bottom: 24px;
+            overflow: hidden;
+        }
+        .suite-header {
+            padding: 18px 24px;
+            background-color: var(--surface-card);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .suite-title { font-size: 18px; font-weight: 600; color: var(--text-primary); }
+        .suite-sub { font-size: 13px; color: var(--text-secondary); margin-top: 2px; display: inline-block; }
+        .suite-stat { font-size: 14px; color: var(--text-secondary); margin-left: 12px; }
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 9999px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        .badge-pass { background-color: rgba(16, 185, 129, 0.2); color: var(--pass); }
+        .badge-fail { background-color: rgba(239, 68, 68, 0.2); color: var(--fail); }
+        .status-pass { color: var(--pass); font-weight: 600; }
+        .status-fail { color: var(--fail); font-weight: 600; }
+        .dim-tag {
+            display: inline-block;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 11px;
+            background: #374151;
+            color: #d1d5db;
+        }
+        .styled-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+        .styled-table th {
+            text-align: left;
+            padding: 12px 18px;
+            background-color: rgba(31, 41, 55, 0.5);
+            color: var(--text-secondary);
+            font-weight: 600;
+            border-bottom: 1px solid var(--border);
+        }
+        .styled-table td {
+            padding: 14px 18px;
+            border-bottom: 1px solid var(--border);
+            vertical-align: top;
+        }
+        .styled-table tr:last-child td { border-bottom: none; }
+        code {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            font-size: 12px;
+        }
+        .text-muted { color: var(--text-secondary); font-size: 12px; }
+        .footer {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 13px;
+            margin-top: 40px;
+            padding: 16px;
+            border-top: 1px solid var(--border);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-title">
+                <h1>Spotify Data Lakehouse &bull; Great Expectations Data Docs</h1>
+                <p>Data Quality Assurance & Workflow Orchestration Audit</p>
+            </div>
+            <div>
+                <span class="badge" style="font-size: 14px; padding: 8px 16px; background-color: #ef444422; color: #ef4444;">
+                    11 SUITE(S) FAILED
+                </span>
+            </div>
+        </header>
+
+        <section class="kpi-grid">
+            <div class="kpi-card">
+                <div class="kpi-label">Expectation Success Rate</div>
+                <div class="kpi-value" style="color: #ef4444;">0.0%</div>
+                <div class="kpi-sub">0 of 61 expectations satisfied</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">Suites Executed</div>
+                <div class="kpi-value">11</div>
+                <div class="kpi-sub">0 passed | 11 failed</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">Active Layers</div>
+                <div class="kpi-value" style="font-size: 22px; padding-top: 8px;">Bronze &bull; Silver &bull; Gold &bull; Marts</div>
+                <div class="kpi-sub">End-to-End Lakehouse Integrity</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">Execution Engines</div>
+                <div class="kpi-value" style="font-size: 18px; padding-top: 8px;">Great Expectations 1.24 + Integration</div>
+                <div class="kpi-sub">Standard GX Suites + Custom Star-Schema Checks</div>
+            </div>
+        </section>
+
+        <section>
+            
+        <div class="suite-card">
+            <div class="suite-header">
+                <div>
+                    <h3 class="suite-title">bronze_tracks_suite</h3>
+                    <span class="suite-sub">Layer: <strong>BRONZE</strong> | Asset: <code>tracks</code> | Engine: <em>GreatExpectations_1.24</em></span>
+                </div>
+                <div>
+                    <span class="badge badge-fail">MISSING DATASET</span>
+                    <span class="suite-stat">0/3 (0.0%)</span>
+                </div>
+            </div>
+            <table class="styled-table">
+                <thead>
+                    <tr>
+                        <th style="width: 70px;">Status</th>
+                        <th style="width: 110px;">Dimension</th>
+                        <th>Expectation & Description</th>
+                        <th>Observed Metric / Value</th>
+                        <th style="width: 90px;">Violations</th>
+                        <th style="width: 90px;">Elements</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+            <tr>
+                <td><span class="status-fail">FAIL</span></td>
+                <td><span class="dim-tag dim-availability">availability</span></td>
+                <td><strong>expect_dataset_to_exist</strong><br><small class="text-muted">Dataset 'tracks' must exist on disk in layer 'bronze'</small></td>
+                <td><code>DATASET_NOT_FOUND</code></td>
+                <td>1</td>
+                <td>0</td>
+            </tr>
+            
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="suite-card">
+            <div class="suite-header">
+                <div>
+                    <h3 class="suite-title">bronze_charts_suite</h3>
+                    <span class="suite-sub">Layer: <strong>BRONZE</strong> | Asset: <code>charts</code> | Engine: <em>GreatExpectations_1.24</em></span>
+                </div>
+                <div>
+                    <span class="badge badge-fail">MISSING DATASET</span>
+                    <span class="suite-stat">0/3 (0.0%)</span>
+                </div>
+            </div>
+            <table class="styled-table">
+                <thead>
+                    <tr>
+                        <th style="width: 70px;">Status</th>
+                        <th style="width: 110px;">Dimension</th>
+                        <th>Expectation & Description</th>
+                        <th>Observed Metric / Value</th>
+                        <th style="width: 90px;">Violations</th>
+                        <th style="width: 90px;">Elements</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+            <tr>
+                <td><span class="status-fail">FAIL</span></td>
+                <td><span class="dim-tag dim-availability">availability</span></td>
+                <td><strong>expect_dataset_to_exist</strong><br><small class="text-muted">Dataset 'charts' must exist on disk in layer 'bronze'</small></td>
+                <td><code>DATASET_NOT_FOUND</code></td>
+                <td>1</td>
+                <td>0</td>
+            </tr>
+            
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="suite-card">
+            <div class="suite-header">
+                <div>
+                    <h3 class="suite-title">bronze_countries_suite</h3>
+                    <span class="suite-sub">Layer: <strong>BRONZE</strong> | Asset: <code>countries</code> | Engine: <em>GreatExpectations_1.24</em></span>
+                </div>
+                <div>
+                    <span class="badge badge-fail">MISSING DATASET</span>
+                    <span class="suite-stat">0/2 (0.0%)</span>
+                </div>
+            </div>
+            <table class="styled-table">
+                <thead>
+                    <tr>
+                        <th style="width: 70px;">Status</th>
+                        <th style="width: 110px;">Dimension</th>
+                        <th>Expectation & Description</th>
+                        <th>Observed Metric / Value</th>
+                        <th style="width: 90px;">Violations</th>
+                        <th style="width: 90px;">Elements</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+            <tr>
+                <td><span class="status-fail">FAIL</span></td>
+                <td><span class="dim-tag dim-availability">availability</span></td>
+                <td><strong>expect_dataset_to_exist</strong><br><small class="text-muted">Dataset 'countries' must exist on disk in layer 'bronze'</small></td>
+                <td><code>DATASET_NOT_FOUND</code></td>
+                <td>1</td>
+                <td>0</td>
+            </tr>
+            
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="suite-card">
+            <div class="suite-header">
+                <div>
+                    <h3 class="suite-title">silver_tracks_suite</h3>
+                    <span class="suite-sub">Layer: <strong>SILVER</strong> | Asset: <code>tracks</code> | Engine: <em>GreatExpectations_1.24</em></span>
+                </div>
+                <div>
+                    <span class="badge badge-fail">MISSING DATASET</span>
+                    <span class="suite-stat">0/19 (0.0%)</span>
+                </div>
+            </div>
+            <table class="styled-table">
+                <thead>
+                    <tr>
+                        <th style="width: 70px;">Status</th>
+                        <th style="width: 110px;">Dimension</th>
+                        <th>Expectation & Description</th>
+                        <th>Observed Metric / Value</th>
+                        <th style="width: 90px;">Violations</th>
+                        <th style="width: 90px;">Elements</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+            <tr>
+                <td><span class="status-fail">FAIL</span></td>
+                <td><span class="dim-tag dim-availability">availability</span></td>
+                <td><strong>expect_dataset_to_exist</strong><br><small class="text-muted">Dataset 'tracks' must exist on disk in layer 'silver'</small></td>
+                <td><code>DATASET_NOT_FOUND</code></td>
+                <td>1</td>
+                <td>0</td>
+            </tr>
+            
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="suite-card">
+            <div class="suite-header">
+                <div>
+                    <h3 class="suite-title">silver_charts_suite</h3>
+                    <span class="suite-sub">Layer: <strong>SILVER</strong> | Asset: <code>charts</code> | Engine: <em>GreatExpectations_1.24</em></span>
+                </div>
+                <div>
+                    <span class="badge badge-fail">MISSING DATASET</span>
+                    <span class="suite-stat">0/11 (0.0%)</span>
+                </div>
+            </div>
+            <table class="styled-table">
+                <thead>
+                    <tr>
+                        <th style="width: 70px;">Status</th>
+                        <th style="width: 110px;">Dimension</th>
+                        <th>Expectation & Description</th>
+                        <th>Observed Metric / Value</th>
+                        <th style="width: 90px;">Violations</th>
+                        <th style="width: 90px;">Elements</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+            <tr>
+                <td><span class="status-fail">FAIL</span></td>
+                <td><span class="dim-tag dim-availability">availability</span></td>
+                <td><strong>expect_dataset_to_exist</strong><br><small class="text-muted">Dataset 'charts' must exist on disk in layer 'silver'</small></td>
+                <td><code>DATASET_NOT_FOUND</code></td>
+                <td>1</td>
+                <td>0</td>
+            </tr>
+            
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="suite-card">
+            <div class="suite-header">
+                <div>
+                    <h3 class="suite-title">silver_countries_suite</h3>
+                    <span class="suite-sub">Layer: <strong>SILVER</strong> | Asset: <code>countries</code> | Engine: <em>GreatExpectations_1.24</em></span>
+                </div>
+                <div>
+                    <span class="badge badge-fail">MISSING DATASET</span>
+                    <span class="suite-stat">0/5 (0.0%)</span>
+                </div>
+            </div>
+            <table class="styled-table">
+                <thead>
+                    <tr>
+                        <th style="width: 70px;">Status</th>
+                        <th style="width: 110px;">Dimension</th>
+                        <th>Expectation & Description</th>
+                        <th>Observed Metric / Value</th>
+                        <th style="width: 90px;">Violations</th>
+                        <th style="width: 90px;">Elements</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+            <tr>
+                <td><span class="status-fail">FAIL</span></td>
+                <td><span class="dim-tag dim-availability">availability</span></td>
+                <td><strong>expect_dataset_to_exist</strong><br><small class="text-muted">Dataset 'countries' must exist on disk in layer 'silver'</small></td>
+                <td><code>DATASET_NOT_FOUND</code></td>
+                <td>1</td>
+                <td>0</td>
+            </tr>
+            
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="suite-card">
+            <div class="suite-header">
+                <div>
+                    <h3 class="suite-title">silver_track_genres_suite</h3>
+                    <span class="suite-sub">Layer: <strong>SILVER</strong> | Asset: <code>track_genres</code> | Engine: <em>GreatExpectations_1.24</em></span>
+                </div>
+                <div>
+                    <span class="badge badge-fail">MISSING DATASET</span>
+                    <span class="suite-stat">0/3 (0.0%)</span>
+                </div>
+            </div>
+            <table class="styled-table">
+                <thead>
+                    <tr>
+                        <th style="width: 70px;">Status</th>
+                        <th style="width: 110px;">Dimension</th>
+                        <th>Expectation & Description</th>
+                        <th>Observed Metric / Value</th>
+                        <th style="width: 90px;">Violations</th>
+                        <th style="width: 90px;">Elements</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+            <tr>
+                <td><span class="status-fail">FAIL</span></td>
+                <td><span class="dim-tag dim-availability">availability</span></td>
+                <td><strong>expect_dataset_to_exist</strong><br><small class="text-muted">Dataset 'track_genres' must exist on disk in layer 'silver'</small></td>
+                <td><code>DATASET_NOT_FOUND</code></td>
+                <td>1</td>
+                <td>0</td>
+            </tr>
+            
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="suite-card">
+            <div class="suite-header">
+                <div>
+                    <h3 class="suite-title">quarantine_isolation_suite</h3>
+                    <span class="suite-sub">Layer: <strong>SILVER</strong> | Asset: <code>tracks_quarantine</code> | Engine: <em>GreatExpectations_1.24</em></span>
+                </div>
+                <div>
+                    <span class="badge badge-fail">MISSING DATASET</span>
+                    <span class="suite-stat">0/2 (0.0%)</span>
+                </div>
+            </div>
+            <table class="styled-table">
+                <thead>
+                    <tr>
+                        <th style="width: 70px;">Status</th>
+                        <th style="width: 110px;">Dimension</th>
+                        <th>Expectation & Description</th>
+                        <th>Observed Metric / Value</th>
+                        <th style="width: 90px;">Violations</th>
+                        <th style="width: 90px;">Elements</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+            <tr>
+                <td><span class="status-fail">FAIL</span></td>
+                <td><span class="dim-tag dim-availability">availability</span></td>
+                <td><strong>expect_dataset_to_exist</strong><br><small class="text-muted">Dataset 'tracks_quarantine' must exist on disk in layer 'silver'</small></td>
+                <td><code>DATASET_NOT_FOUND</code></td>
+                <td>1</td>
+                <td>0</td>
+            </tr>
+            
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="suite-card">
+            <div class="suite-header">
+                <div>
+                    <h3 class="suite-title">gold_enriched_charts_suite</h3>
+                    <span class="suite-sub">Layer: <strong>GOLD</strong> | Asset: <code>enriched_chart_data</code> | Engine: <em>GreatExpectations_1.24</em></span>
+                </div>
+                <div>
+                    <span class="badge badge-fail">MISSING DATASET</span>
+                    <span class="suite-stat">0/6 (0.0%)</span>
+                </div>
+            </div>
+            <table class="styled-table">
+                <thead>
+                    <tr>
+                        <th style="width: 70px;">Status</th>
+                        <th style="width: 110px;">Dimension</th>
+                        <th>Expectation & Description</th>
+                        <th>Observed Metric / Value</th>
+                        <th style="width: 90px;">Violations</th>
+                        <th style="width: 90px;">Elements</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+            <tr>
+                <td><span class="status-fail">FAIL</span></td>
+                <td><span class="dim-tag dim-availability">availability</span></td>
+                <td><strong>expect_dataset_to_exist</strong><br><small class="text-muted">Dataset 'enriched_chart_data' must exist on disk in layer 'gold'</small></td>
+                <td><code>DATASET_NOT_FOUND</code></td>
+                <td>1</td>
+                <td>0</td>
+            </tr>
+            
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="suite-card">
+            <div class="suite-header">
+                <div>
+                    <h3 class="suite-title">gold_country_analytics_suite</h3>
+                    <span class="suite-sub">Layer: <strong>GOLD</strong> | Asset: <code>country_analytics</code> | Engine: <em>GreatExpectations_1.24</em></span>
+                </div>
+                <div>
+                    <span class="badge badge-fail">MISSING DATASET</span>
+                    <span class="suite-stat">0/2 (0.0%)</span>
+                </div>
+            </div>
+            <table class="styled-table">
+                <thead>
+                    <tr>
+                        <th style="width: 70px;">Status</th>
+                        <th style="width: 110px;">Dimension</th>
+                        <th>Expectation & Description</th>
+                        <th>Observed Metric / Value</th>
+                        <th style="width: 90px;">Violations</th>
+                        <th style="width: 90px;">Elements</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+            <tr>
+                <td><span class="status-fail">FAIL</span></td>
+                <td><span class="dim-tag dim-availability">availability</span></td>
+                <td><strong>expect_dataset_to_exist</strong><br><small class="text-muted">Dataset 'country_analytics' must exist on disk in layer 'gold'</small></td>
+                <td><code>DATASET_NOT_FOUND</code></td>
+                <td>1</td>
+                <td>0</td>
+            </tr>
+            
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="suite-card">
+            <div class="suite-header">
+                <div>
+                    <h3 class="suite-title">referential_integrity_suite</h3>
+                    <span class="suite-sub">Layer: <strong>MARTS</strong> | Asset: <code>star_schema_integrity</code> | Engine: <em>GreatExpectations_1.24</em></span>
+                </div>
+                <div>
+                    <span class="badge badge-fail">MISSING DATASET</span>
+                    <span class="suite-stat">0/5 (0.0%)</span>
+                </div>
+            </div>
+            <table class="styled-table">
+                <thead>
+                    <tr>
+                        <th style="width: 70px;">Status</th>
+                        <th style="width: 110px;">Dimension</th>
+                        <th>Expectation & Description</th>
+                        <th>Observed Metric / Value</th>
+                        <th style="width: 90px;">Violations</th>
+                        <th style="width: 90px;">Elements</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+            <tr>
+                <td><span class="status-fail">FAIL</span></td>
+                <td><span class="dim-tag dim-availability">availability</span></td>
+                <td><strong>expect_dataset_to_exist</strong><br><small class="text-muted">Dataset 'star_schema_integrity' must exist on disk in layer 'marts'</small></td>
+                <td><code>DATASET_NOT_FOUND</code></td>
+                <td>1</td>
+                <td>0</td>
+            </tr>
+            
+                </tbody>
+            </table>
+        </div>
+        
+        </section>
+
+        <footer class="footer">
+            Spotify Lakehouse &bull; Data Quality Architecture &bull; Generated: 2026-11-06 17:48:47 UTC
+        </footer>
+    </div>
+</body>
+</html>

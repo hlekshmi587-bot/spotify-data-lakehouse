@@ -1,0 +1,144 @@
+{
+  "history": [
+    {
+      "event": "TASK_FAILURE",
+      "dag_id": "spotify_lakehouse_pipeline",
+      "task_id": "validate_silver_quality_gate",
+      "try_number": 1,
+      "execution_date": "2026-11-06 17:46:33.186879+00:00",
+      "exception": "Validation Failed!",
+      "timestamp_utc": "2026-11-06T17:46:33.186890+00:00",
+      "action_required": "Inspect logs for task 'validate_silver_quality_gate' in DAG 'spotify_lakehouse_pipeline'. Check Great Expectations quality gate or upstream inputs."
+    },
+    {
+      "event": "TASK_FAILURE",
+      "dag_id": "spotify_lakehouse_pipeline",
+      "task_id": "test_spark_bronze_to_silver",
+      "try_number": 1,
+      "execution_date": "2026-11-05T00:00:00Z",
+      "exception": "Simulated Connection Timeout in Spark",
+      "timestamp_utc": "2026-11-06T17:46:34.576454+00:00",
+      "action_required": "Inspect logs for task 'test_spark_bronze_to_silver' in DAG 'spotify_lakehouse_pipeline'. Check Great Expectations quality gate or upstream inputs."
+    },
+    {
+      "event": "TASK_RETRY",
+      "dag_id": "spotify_lakehouse_pipeline",
+      "task_id": "test_spark_bronze_to_silver",
+      "retry_attempt": 1,
+      "timestamp_utc": "2026-11-06T17:46:34.591366+00:00"
+    },
+    {
+      "event": "TASK_SUCCESS",
+      "dag_id": "spotify_lakehouse_pipeline",
+      "task_id": "test_spark_bronze_to_silver",
+      "timestamp_utc": "2026-11-06T17:46:34.601079+00:00"
+    },
+    {
+      "event": "QUARANTINE_BUDGET_BREACH",
+      "dataset": "tracks",
+      "quarantined_count": 25,
+      "total_records": 10000,
+      "actual_error_pct": 0.25,
+      "budget_threshold_pct": 0.1,
+      "timestamp_utc": "2026-11-06T17:46:34.653682+00:00",
+      "severity": "CRITICAL"
+    },
+    {
+      "event": "TASK_FAILURE",
+      "dag_id": "spotify_lakehouse_pipeline",
+      "task_id": "validate_silver_quality_gate",
+      "try_number": 1,
+      "execution_date": "2026-11-06 17:47:53.316122+00:00",
+      "exception": "Validation Failed!",
+      "timestamp_utc": "2026-11-06T17:47:53.316138+00:00",
+      "action_required": "Inspect logs for task 'validate_silver_quality_gate' in DAG 'spotify_lakehouse_pipeline'. Check Great Expectations quality gate or upstream inputs."
+    },
+    {
+      "event": "TASK_FAILURE",
+      "dag_id": "spotify_lakehouse_pipeline",
+      "task_id": "test_spark_bronze_to_silver",
+      "try_number": 1,
+      "execution_date": "2026-11-05T00:00:00Z",
+      "exception": "Simulated Connection Timeout in Spark",
+      "timestamp_utc": "2026-11-06T17:47:54.444193+00:00",
+      "action_required": "Inspect logs for task 'test_spark_bronze_to_silver' in DAG 'spotify_lakehouse_pipeline'. Check Great Expectations quality gate or upstream inputs."
+    },
+    {
+      "event": "TASK_RETRY",
+      "dag_id": "spotify_lakehouse_pipeline",
+      "task_id": "test_spark_bronze_to_silver",
+      "retry_attempt": 1,
+      "timestamp_utc": "2026-11-06T17:47:54.472677+00:00"
+    },
+    {
+      "event": "TASK_SUCCESS",
+      "dag_id": "spotify_lakehouse_pipeline",
+      "task_id": "test_spark_bronze_to_silver",
+      "timestamp_utc": "2026-11-06T17:47:54.491815+00:00"
+    },
+    {
+      "event": "QUARANTINE_BUDGET_BREACH",
+      "dataset": "tracks",
+      "quarantined_count": 25,
+      "total_records": 10000,
+      "actual_error_pct": 0.25,
+      "budget_threshold_pct": 0.1,
+      "timestamp_utc": "2026-11-06T17:47:54.621490+00:00",
+      "severity": "CRITICAL"
+    },
+    {
+      "event": "TASK_FAILURE",
+      "dag_id": "spotify_lakehouse_pipeline",
+      "task_id": "validate_silver_quality_gate",
+      "try_number": 1,
+      "execution_date": "2026-11-06 17:48:28.258455+00:00",
+      "exception": "Validation Failed!",
+      "timestamp_utc": "2026-11-06T17:48:28.258469+00:00",
+      "action_required": "Inspect logs for task 'validate_silver_quality_gate' in DAG 'spotify_lakehouse_pipeline'. Check Great Expectations quality gate or upstream inputs."
+    },
+    {
+      "event": "TASK_FAILURE",
+      "dag_id": "spotify_lakehouse_pipeline",
+      "task_id": "test_spark_bronze_to_silver",
+      "try_number": 1,
+      "execution_date": "2026-11-05T00:00:00Z",
+      "exception": "Simulated Connection Timeout in Spark",
+      "timestamp_utc": "2026-11-06T17:48:29.435879+00:00",
+      "action_required": "Inspect logs for task 'test_spark_bronze_to_silver' in DAG 'spotify_lakehouse_pipeline'. Check Great Expectations quality gate or upstream inputs."
+    },
+    {
+      "event": "TASK_RETRY",
+      "dag_id": "spotify_lakehouse_pipeline",
+      "task_id": "test_spark_bronze_to_silver",
+      "retry_attempt": 1,
+      "timestamp_utc": "2026-11-06T17:48:29.538560+00:00"
+    },
+    {
+      "event": "TASK_SUCCESS",
+      "dag_id": "spotify_lakehouse_pipeline",
+      "task_id": "test_spark_bronze_to_silver",
+      "timestamp_utc": "2026-11-06T17:48:29.551417+00:00"
+    },
+    {
+      "event": "QUARANTINE_BUDGET_BREACH",
+      "dataset": "tracks",
+      "quarantined_count": 25,
+      "total_records": 10000,
+      "actual_error_pct": 0.25,
+      "budget_threshold_pct": 0.1,
+      "timestamp_utc": "2026-11-06T17:48:29.597987+00:00",
+      "severity": "CRITICAL"
+    },
+    {
+      "event": "TASK_FAILURE",
+      "dag_id": "spotify_lakehouse_pipeline",
+      "task_id": "ingest_tracks",
+      "try_number": 1,
+      "execution_date": "2026-11-06 17:49:04.352217+00:00",
+      "exception": "No module named 'ingestion'",
+      "timestamp_utc": "2026-11-06T17:49:04.352226+00:00",
+      "action_required": "Inspect logs for task 'ingest_tracks' in DAG 'spotify_lakehouse_pipeline'. Check Great Expectations quality gate or upstream inputs."
+    }
+  ],
+  "last_updated_utc": "2026-11-06T17:49:04.363566+00:00"
+}

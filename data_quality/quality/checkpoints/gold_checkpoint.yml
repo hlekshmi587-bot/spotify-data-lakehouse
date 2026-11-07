@@ -1,0 +1,29 @@
+name: gold_checkpoint
+config_version: 1.0
+class_name: SimpleCheckpoint
+run_name_template: "%Y%m%d-%H%M%S-gold-validation"
+
+validations:
+  - batch_request:
+      datasource_name: lakehouse_datasource
+      data_connector_name: gold_connector
+      data_asset_name: enriched_chart_data
+    expectation_suite_name: gold_enriched_charts_suite
+  - batch_request:
+      datasource_name: lakehouse_datasource
+      data_connector_name: gold_connector
+      data_asset_name: country_analytics
+    expectation_suite_name: gold_country_analytics_suite
+  - batch_request:
+      datasource_name: lakehouse_datasource
+      data_connector_name: marts_connector
+      data_asset_name: referential_integrity
+    expectation_suite_name: referential_integrity_suite
+
+action_list:
+  - name: store_validation_result
+    action:
+      class_name: StoreValidationResultAction
+  - name: update_data_docs
+    action:
+      class_name: UpdateDataDocsAction

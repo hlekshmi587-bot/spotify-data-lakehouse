@@ -1,0 +1,45 @@
+{
+  "data_asset_type": null,
+  "expectation_suite_name": "silver_track_genres_suite",
+  "expectations": [
+    {
+      "expectation_type": "expect_column_values_to_not_be_null",
+      "kwargs": {
+        "column": "track_id"
+      },
+      "meta": {
+        "dimension": "nulls",
+        "description": "track_id must not be null in genre bridge"
+      }
+    },
+    {
+      "expectation_type": "expect_column_values_to_not_be_null",
+      "kwargs": {
+        "column": "genre"
+      },
+      "meta": {
+        "dimension": "nulls",
+        "description": "genre must not be null in genre bridge"
+      }
+    },
+    {
+      "expectation_type": "expect_compound_columns_to_be_unique",
+      "kwargs": {
+        "column_list": [
+          "track_id",
+          "genre"
+        ]
+      },
+      "meta": {
+        "dimension": "duplicates",
+        "description": "(track_id, genre) pairs must be unique"
+      }
+    }
+  ],
+  "ge_cloud_id": null,
+  "meta": {
+    "great_expectations_version": "1.24.1",
+    "author": "Member 4 (Data Quality & Workflow Orchestration)",
+    "suite_name": "silver_track_genres_suite"
+  }
+}

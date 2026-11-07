@@ -1,0 +1,75 @@
+{
+  "data_asset_type": null,
+  "expectation_suite_name": "referential_integrity_suite",
+  "expectations": [
+    {
+      "expectation_type": "expect_foreign_keys_to_exist",
+      "kwargs": {
+        "child_dataset": "fact_chart",
+        "child_column": "track_key",
+        "parent_dataset": "dim_track",
+        "parent_column": "track_key"
+      },
+      "meta": {
+        "dimension": "referential_integrity",
+        "description": "Every track_key in fact_chart must exist in dim_track"
+      }
+    },
+    {
+      "expectation_type": "expect_foreign_keys_to_exist",
+      "kwargs": {
+        "child_dataset": "fact_chart",
+        "child_column": "country_key",
+        "parent_dataset": "dim_country",
+        "parent_column": "country_key"
+      },
+      "meta": {
+        "dimension": "referential_integrity",
+        "description": "Every country_key in fact_chart must exist in dim_country"
+      }
+    },
+    {
+      "expectation_type": "expect_foreign_keys_to_exist",
+      "kwargs": {
+        "child_dataset": "bridge_track_artist",
+        "child_column": "track_key",
+        "parent_dataset": "dim_track",
+        "parent_column": "track_key"
+      },
+      "meta": {
+        "dimension": "referential_integrity",
+        "description": "Every track_key in bridge_track_artist must exist in dim_track"
+      }
+    },
+    {
+      "expectation_type": "expect_bridge_weights_to_sum_to_one",
+      "kwargs": {
+        "dataset": "bridge_track_artist",
+        "group_column": "track_key",
+        "weight_column": "credit_weight"
+      },
+      "meta": {
+        "dimension": "referential_integrity",
+        "description": "Artist bridge credit_weight must sum strictly to 1.0 per track"
+      }
+    },
+    {
+      "expectation_type": "expect_bridge_weights_to_sum_to_one",
+      "kwargs": {
+        "dataset": "bridge_track_genre",
+        "group_column": "track_key",
+        "weight_column": "weighting_factor"
+      },
+      "meta": {
+        "dimension": "referential_integrity",
+        "description": "Genre bridge weighting_factor must sum strictly to 1.0 per track"
+      }
+    }
+  ],
+  "ge_cloud_id": null,
+  "meta": {
+    "great_expectations_version": "1.24.1",
+    "author": "Member 4 (Data Quality & Workflow Orchestration)",
+    "suite_name": "referential_integrity_suite"
+  }
+}

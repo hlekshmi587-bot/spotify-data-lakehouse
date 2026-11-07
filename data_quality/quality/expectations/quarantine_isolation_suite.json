@@ -1,0 +1,35 @@
+{
+  "data_asset_type": null,
+  "expectation_suite_name": "quarantine_isolation_suite",
+  "expectations": [
+    {
+      "expectation_type": "expect_quarantine_records_to_have_reasons",
+      "kwargs": {
+        "dataset": "tracks_quarantine",
+        "reason_column": "reject_reasons"
+      },
+      "meta": {
+        "dimension": "quarantine",
+        "description": "Quarantined tracks must document non-empty reject reasons"
+      }
+    },
+    {
+      "expectation_type": "expect_quarantine_error_rate_to_be_below_threshold",
+      "kwargs": {
+        "dataset": "tracks_quarantine",
+        "total_dataset": "silver_tracks",
+        "threshold_pct": 0.1
+      },
+      "meta": {
+        "dimension": "quarantine",
+        "description": "Quarantine rate must not breach error budget (0.1%)"
+      }
+    }
+  ],
+  "ge_cloud_id": null,
+  "meta": {
+    "great_expectations_version": "1.24.1",
+    "author": "Member 4 (Data Quality & Workflow Orchestration)",
+    "suite_name": "quarantine_isolation_suite"
+  }
+}
