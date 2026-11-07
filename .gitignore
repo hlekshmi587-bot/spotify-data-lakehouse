@@ -1,66 +1,105 @@
-<<<<<<< HEAD
-# Python cache
 
-**pycache**/
-*.py[cod]
-
-# Virtual environments
-
-=======
-﻿# Python cache
+# ==========================================
+# PYTHON
+# ==========================================
 __pycache__/
 *.py[cod]
+*.pyo
+*.pyd
+.Python
 
 # Virtual environments
->>>>>>> ardra
 .venv/
+.venv-*/
 venv/
 env/
+ENV/
 
-# Test cache
-<<<<<<< HEAD
+# ==========================================
+# ENVIRONMENT VARIABLES AND SECRETS
+# ==========================================
+.env
+.env.*
+!.env.example
+!.env.template
 
+# ==========================================
+# JUPYTER
+# ==========================================
+.ipynb_checkpoints/
+
+# ==========================================
+# TESTING
+# ==========================================
 .pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
 
-# Logs
-
+# ==========================================
+# LOGS
+# ==========================================
 *.log
-data/logs/
+logs/
 
-# Generated datasets
+# ==========================================
+# AIRFLOW
+# ==========================================
+airflow.db
+airflow.db-*
+airflow-webserver.pid
+airflow-scheduler.pid
 
-=======
-.pytest_cache/
+# ==========================================
+# SPARK
+# ==========================================
+spark-warehouse/
+metastore_db/
+derby.log
+checkpoint/
+checkpoints/
 
-# Logs
-*.log
-data/logs/
+# ==========================================
+# DBT
+# ==========================================
+target/
+dbt_packages/
+dbt.log
 
-# Raw datasets
-data/raw/*.csv
+# ==========================================
+# DATA FILES
+# ==========================================
+data/raw/*
+!data/raw/.gitkeep
 
-# Generated Parquet datasets
->>>>>>> ardra
 data/bronze/
 data/silver/
 data/gold/
+data/intermediate/
+data/processed/
 
-<<<<<<< HEAD
-# Raw CSV files
+*.parquet
+*.snappy
 
-data/raw/*.csv
+# ==========================================
+# GREAT EXPECTATIONS GENERATED FILES
+# ==========================================
+uncommitted/
+validations/
+data_docs/
 
-# Environment variables and secrets
-
-=======
-# Environment variables and secrets
->>>>>>> ardra
-.env
-.env.*
-
-# IDE settings
-<<<<<<< HEAD
-
-=======
->>>>>>> ardra
+# ==========================================
+# IDE AND OPERATING SYSTEM
+# ==========================================
 .vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ==========================================
+# TEMPORARY FILES
+# ==========================================
+*.tmp
+*.temp
+*.bak

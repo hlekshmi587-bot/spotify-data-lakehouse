@@ -1,0 +1,29 @@
+name: bronze_checkpoint
+config_version: 1.0
+class_name: SimpleCheckpoint
+run_name_template: "%Y%m%d-%H%M%S-bronze-validation"
+
+validations:
+  - batch_request:
+      datasource_name: lakehouse_datasource
+      data_connector_name: bronze_connector
+      data_asset_name: tracks
+    expectation_suite_name: bronze_tracks_suite
+  - batch_request:
+      datasource_name: lakehouse_datasource
+      data_connector_name: bronze_connector
+      data_asset_name: charts
+    expectation_suite_name: bronze_charts_suite
+  - batch_request:
+      datasource_name: lakehouse_datasource
+      data_connector_name: bronze_connector
+      data_asset_name: countries
+    expectation_suite_name: bronze_countries_suite
+
+action_list:
+  - name: store_validation_result
+    action:
+      class_name: StoreValidationResultAction
+  - name: update_data_docs
+    action:
+      class_name: UpdateDataDocsAction

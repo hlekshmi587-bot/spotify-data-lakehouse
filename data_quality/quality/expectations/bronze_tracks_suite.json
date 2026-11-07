@@ -1,0 +1,69 @@
+{
+  "data_asset_type": null,
+  "expectation_suite_name": "bronze_tracks_suite",
+  "expectations": [
+    {
+      "expectation_type": "expect_table_columns_to_match_set",
+      "kwargs": {
+        "column_set": [
+          "_c0",
+          "track_id",
+          "artists",
+          "album_name",
+          "track_name",
+          "popularity",
+          "duration_ms",
+          "explicit",
+          "danceability",
+          "energy",
+          "key",
+          "loudness",
+          "mode",
+          "speechiness",
+          "acousticness",
+          "instrumentalness",
+          "liveness",
+          "valence",
+          "tempo",
+          "time_signature",
+          "track_genre",
+          "_source_file",
+          "_ingested_at",
+          "_run_id"
+        ],
+        "exact_match": false
+      },
+      "meta": {
+        "dimension": "schema",
+        "description": "Bronze tracks must contain raw source columns and lineage attributes"
+      }
+    },
+    {
+      "expectation_type": "expect_column_values_to_not_be_null",
+      "kwargs": {
+        "column": "track_id"
+      },
+      "meta": {
+        "dimension": "nulls",
+        "description": "track_id must not be null in Bronze tracks"
+      }
+    },
+    {
+      "expectation_type": "expect_table_row_count_to_be_between",
+      "kwargs": {
+        "min_value": 1,
+        "max_value": 1000000
+      },
+      "meta": {
+        "dimension": "volume",
+        "description": "Bronze tracks must not be empty"
+      }
+    }
+  ],
+  "ge_cloud_id": null,
+  "meta": {
+    "great_expectations_version": "1.24.1",
+    "author": "Member 4 (Data Quality & Workflow Orchestration)",
+    "suite_name": "bronze_tracks_suite"
+  }
+}

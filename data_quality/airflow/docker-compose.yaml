@@ -1,0 +1,90 @@
+version: '3.8'
+
+x-airflow-common:
+  &airflow-common
+  build:
+    context: ../..
+    dockerfile: data_quality/airflow/Dockerfile
+  environment:
+    &airflow-common-env
+    AIRFLOW__CORE__EXECUTOR: LocalExecutor
+    AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
+    AIRFLOW__CORE__FERNET_KEY: ''
+    AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: 'false'
+    AIRFLOW__CORE__LOAD_EXAMPLES: 'false'
+    AIRFLOW__API__AUTH_BACKENDS: 'airflow.api.auth.backend.basic_auth,airflow.api.auth.backend.session'
+    AIRFLOW__CORE__DEFAULT_TIMEZONE: 'UTC'
+    PYTHONPATH: /opt/airflow:/opt/airflow/data_quality
+    SPOTIFY_PROJECT_ROOT: /opt/airflow
+    SPOTIFY_DATA_DIR: /opt/airflow/data
+    JAVA_HOME: /usr/lib/jvm/java-17-openjdk-amd64
+    SPARK_LOCAL_IP: 127.0.0.1
+  volumes:
+    - ../../data_quality/airflow/dags:/opt/airflow/dags
+    - ../../data_quality/quality:/opt/airflow/data_quality/quality
+    - ../../data_quality/monitoring:/opt/airflow/data_quality/monitoring
+    - ../../data_quality/reports:/opt/airflow/data_quality/reports
+    - ../../spark:/opt/airflow/spark:ro
+    - ../../ingestion:/opt/airflow/ingestion:ro
+    - ../../dbt_spotify:/opt/airflow/dbt_spotify:ro
+    - ../../data:/opt/airflow/data:ro
+  user: "${AIRFLOW_UID:-50000}:0"
+  depends_on:
+    postgres:
+      condition: service_healthy
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: airflow
+      POSTGRES_PASSWORD: airflow
+      POSTGRES_DB: airflow
+    volumes:
+      - postgres-db-volume:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "airflow"]
+      interval: 5s
+      retries: 5
+    restart: always
+
+  airflow-init:
+    <<: *airflow-common
+    command: version
+    environment:
+      <<: *airflow-common-env
+      _AIRFLOW_DB_MIGRATE: 'true'
+      _AIRFLOW_WWW_USER_CREATE: 'true'
+      _AIRFLOW_WWW_USER_USERNAME: ${_AIRFLOW_WWW_USER_USERNAME:-admin}
+      _AIRFLOW_WWW_USER_PASSWORD: ${_AIRFLOW_WWW_USER_PASSWORD:-admin}
+
+  airflow-webserver:
+    <<: *airflow-common
+    command: webserver
+    ports:
+      - "8080:8080"
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    restart: always
+    depends_on:
+      airflow-init:
+        condition: service_completed_successfully
+
+  airflow-scheduler:
+    <<: *airflow-common
+    command: scheduler
+    healthcheck:
+      test: ["CMD-SHELL", 'airflow jobs check --job-type SchedulerJob --hostname "$${HOSTNAME}"']
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    restart: always
+    depends_on:
+      airflow-init:
+        condition: service_completed_successfully
+
+volumes:
+  postgres-db-volume:
