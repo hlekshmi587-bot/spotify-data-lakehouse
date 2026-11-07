@@ -1,0 +1,8 @@
+# Run dbt from inside this folder (dbt looks for profiles.yml in the current directory).
+spotify_dbt:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      path: "{{ env_var('DBT_DUCKDB_PATH', 'target/spotify_warehouse.duckdb') }}"
+      threads: 4

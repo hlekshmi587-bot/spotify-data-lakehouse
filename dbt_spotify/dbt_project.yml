@@ -1,0 +1,29 @@
+name: spotify_dbt
+version: "1.0.0"
+config-version: 2
+profile: spotify_dbt
+
+# Member 2's lakehouse location is set by the SPOTIFY_DATA_DIR environment variable
+# (see models/staging/_sources.yml).
+vars:
+  # Artist names that contain ", " themselves (same list as Member 2's utils/config.py)
+  protected_artist_names: ["Earth, Wind & Fire", "Tyler, The Creator"]
+
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+macro-paths: ["macros"]
+clean-targets: ["target", "dbt_packages"]
+
+models:
+  spotify_dbt:
+    staging:
+      +materialized: view
+      +schema: staging
+    marts:
+      core:
+        +materialized: table
+        +schema: core
+      analytics:
+        +materialized: table
+        +schema: analytics

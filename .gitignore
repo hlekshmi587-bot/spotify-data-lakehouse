@@ -1,39 +1,110 @@
-# Python cache
+
+# ==========================================
+# PYTHON
+# ==========================================
 __pycache__/
 *.py[cod]
+*.pyo
+*.pyd
+.Python
 
-# Virtual environments
+# ==========================================
+# VIRTUAL ENVIRONMENTS
+# ==========================================
 .venv/
+.venv-*/
 venv/
 env/
+ENV/
 
-# Test cache
+# ==========================================
+# ENVIRONMENT VARIABLES AND SECRETS
+# ==========================================
+.env
+.env.*
+!.env.example
+!.env.template
+
+# ==========================================
+# JUPYTER
+# ==========================================
+.ipynb_checkpoints/
+
+# ==========================================
+# TESTING
+# ==========================================
 .pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
 
-# Logs
+# ==========================================
+# LOGS
+# ==========================================
 *.log
 logs/
 data/logs/
 
-# Raw datasets
-data/raw/*.csv
-Dataset.zip
+# ==========================================
+# AIRFLOW
+# ==========================================
+airflow.db
+airflow.db-*
+airflow-webserver.pid
+airflow-scheduler.pid
 
-# Generated Parquet datasets
-data/bronze/
-data/silver/
-data/gold/
-
-# Spark / Hadoop local artefacts
+# ==========================================
+# SPARK / HADOOP
+# ==========================================
 spark-warehouse/
 metastore_db/
 derby.log
 *.crc
+checkpoint/
+checkpoints/
 
-# Environment variables and secrets
-.env
-.env.*
+# ==========================================
+# DBT
+# ==========================================
+target/
+dbt_packages/
+dbt.log
 
-# IDE settings
+# ==========================================
+# DATA FILES
+# ==========================================
+data/raw/*
+!data/raw/.gitkeep
+
+data/bronze/
+data/silver/
+data/gold/
+data/intermediate/
+data/processed/
+
+Dataset.zip
+*.parquet
+*.snappy
+
+# ==========================================
+# GREAT EXPECTATIONS
+# ==========================================
+uncommitted/
+validations/
+data_docs/
+
+# ==========================================
+# IDE AND OPERATING SYSTEM
+# ==========================================
 .vscode/
 .idea/
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ==========================================
+# TEMPORARY FILES
+# ==========================================
+*.tmp
+*.temp
+*.bak

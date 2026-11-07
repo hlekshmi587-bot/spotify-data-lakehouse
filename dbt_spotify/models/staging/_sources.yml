@@ -1,0 +1,47 @@
+version: 2
+
+# Member 2's lakehouse, read in place as Parquet (no copy, no Spark needed).
+# dbt-duckdb turns `external_location` into the FROM clause of the source.
+# Data folder = env var SPOTIFY_DATA_DIR (default: the sibling folder spotify-data-engineering/data).
+sources:
+  - name: lakehouse
+    description: "Silver and Gold Parquet datasets produced by Member 2 (PySpark ETL)."
+    tables:
+      - name: silver_tracks
+        description: "One row per track_id (89,740). Typed, de-duplicated, genres kept as an array."
+        meta:
+          external_location: "read_parquet('{{ env_var('SPOTIFY_DATA_DIR', '../spotify-data-engineering/data') }}/silver/tracks/*.parquet')"
+        columns:
+          - name: track_id
+            data_tests: [unique, not_null]
+
+      - name: silver_track_genres
+        description: "Bridge-shaped Silver table: one row per (track_id, genre), 113,549 rows."
+        meta:
+          external_location: "read_parquet('{{ env_var('SPOTIFY_DATA_DIR', '../spotify-data-engineering/data') }}/silver/track_genres/*.parquet')"
+
+      - name: silver_countries
+        description: "ISO / UN M49 reference, one row per country (249)."
+        meta:
+          external_location: "read_parquet('{{ env_var('SPOTIFY_DATA_DIR', '../spotify-data-engineering/data') }}/silver/countries/*.parquet')"
+        columns:
+          - name: iso_alpha3
+            data_tests: [unique, not_null]
+
+      - name: silver_charts
+        description: "Typed and validated chart rows (50,000). Used only for reconciliation tests."
+        meta:
+          external_location: "read_parquet('{{ env_var('SPOTIFY_DATA_DIR', '../spotify-data-engineering/data') }}/silver/charts/*.parquet')"
+
+      - name: gold_enriched_chart_data
+        description: "Charts joined with tracks and countries, plus date attributes and chart_record_id (50,000). Hive-partitioned by chart_year."
+        meta:
+          external_location: "read_parquet('{{ env_var('SPOTIFY_DATA_DIR', '../spotify-data-engineering/data') }}/gold/enriched_chart_data/**/*.parquet', hive_partitioning = true)"
+        columns:
+          - name: chart_record_id
+            data_tests: [unique, not_null]
+
+      - name: gold_country_analytics
+        description: "Member 2 aggregate (region x chart_type). Used only to reconcile our marts."
+        meta:
+          external_location: "read_parquet('{{ env_var('SPOTIFY_DATA_DIR', '../spotify-data-engineering/data') }}/gold/country_analytics/*.parquet')"

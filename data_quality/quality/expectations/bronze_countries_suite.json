@@ -1,0 +1,48 @@
+{
+  "data_asset_type": null,
+  "expectation_suite_name": "bronze_countries_suite",
+  "expectations": [
+    {
+      "expectation_type": "expect_table_columns_to_match_set",
+      "kwargs": {
+        "column_set": [
+          "name",
+          "alpha-2",
+          "alpha-3",
+          "country-code",
+          "iso_3166-2",
+          "region",
+          "sub-region",
+          "intermediate-region",
+          "region-code",
+          "sub-region-code",
+          "intermediate-region-code",
+          "_source_file",
+          "_ingested_at",
+          "_run_id"
+        ],
+        "exact_match": false
+      },
+      "meta": {
+        "dimension": "schema",
+        "description": "Bronze countries must contain ISO and UN M49 columns"
+      }
+    },
+    {
+      "expectation_type": "expect_column_values_to_not_be_null",
+      "kwargs": {
+        "column": "alpha-3"
+      },
+      "meta": {
+        "dimension": "nulls",
+        "description": "alpha-3 country code must not be null in Bronze countries"
+      }
+    }
+  ],
+  "ge_cloud_id": null,
+  "meta": {
+    "great_expectations_version": "1.24.1",
+    "author": "Member 4 (Data Quality & Workflow Orchestration)",
+    "suite_name": "bronze_countries_suite"
+  }
+}

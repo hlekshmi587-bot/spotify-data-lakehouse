@@ -1,0 +1,256 @@
+{
+  "data_asset_type": null,
+  "expectation_suite_name": "silver_tracks_suite",
+  "expectations": [
+    {
+      "expectation_type": "expect_table_columns_to_match_set",
+      "kwargs": {
+        "column_set": [
+          "track_id",
+          "track_name",
+          "album_name",
+          "artists",
+          "popularity",
+          "duration_ms",
+          "explicit",
+          "danceability",
+          "energy",
+          "key",
+          "loudness",
+          "mode",
+          "speechiness",
+          "acousticness",
+          "instrumentalness",
+          "liveness",
+          "valence",
+          "tempo",
+          "time_signature",
+          "genres",
+          "primary_genre",
+          "genres_count"
+        ],
+        "exact_match": false
+      },
+      "meta": {
+        "dimension": "schema",
+        "description": "Silver tracks schema must include typed audio features and genre arrays"
+      }
+    },
+    {
+      "expectation_type": "expect_column_values_to_not_be_null",
+      "kwargs": {
+        "column": "track_id"
+      },
+      "meta": {
+        "dimension": "nulls",
+        "description": "track_id is primary key and must never be null"
+      }
+    },
+    {
+      "expectation_type": "expect_column_values_to_not_be_null",
+      "kwargs": {
+        "column": "track_name"
+      },
+      "meta": {
+        "dimension": "nulls",
+        "description": "track_name must be present in Silver (blank names quarantined)"
+      }
+    },
+    {
+      "expectation_type": "expect_column_values_to_not_be_null",
+      "kwargs": {
+        "column": "artists"
+      },
+      "meta": {
+        "dimension": "nulls",
+        "description": "artists string must not be null"
+      }
+    },
+    {
+      "expectation_type": "expect_column_values_to_be_unique",
+      "kwargs": {
+        "column": "track_id"
+      },
+      "meta": {
+        "dimension": "duplicates",
+        "description": "track_id must be completely unique after deduplication"
+      }
+    },
+    {
+      "expectation_type": "expect_column_values_to_match_regex",
+      "kwargs": {
+        "column": "track_id",
+        "regex": "^[A-Za-z0-9]{22}$"
+      },
+      "meta": {
+        "dimension": "format",
+        "description": "track_id must be exactly 22 alphanumeric characters"
+      }
+    },
+    {
+      "expectation_type": "expect_column_values_to_be_between",
+      "kwargs": {
+        "column": "popularity",
+        "min_value": 0,
+        "max_value": 100
+      },
+      "meta": {
+        "dimension": "ranges",
+        "description": "popularity must be between 0 and 100"
+      }
+    },
+    {
+      "expectation_type": "expect_column_values_to_be_between",
+      "kwargs": {
+        "column": "duration_ms",
+        "min_value": 1000,
+        "max_value": 7200000
+      },
+      "meta": {
+        "dimension": "ranges",
+        "description": "duration_ms must be positive (at least 1s)"
+      }
+    },
+    {
+      "expectation_type": "expect_column_values_to_be_between",
+      "kwargs": {
+        "column": "danceability",
+        "min_value": 0.0,
+        "max_value": 1.0
+      },
+      "meta": {
+        "dimension": "ranges",
+        "description": "danceability unit interval [0.0, 1.0]"
+      }
+    },
+    {
+      "expectation_type": "expect_column_values_to_be_between",
+      "kwargs": {
+        "column": "energy",
+        "min_value": 0.0,
+        "max_value": 1.0
+      },
+      "meta": {
+        "dimension": "ranges",
+        "description": "energy unit interval [0.0, 1.0]"
+      }
+    },
+    {
+      "expectation_type": "expect_column_values_to_be_between",
+      "kwargs": {
+        "column": "speechiness",
+        "min_value": 0.0,
+        "max_value": 1.0
+      },
+      "meta": {
+        "dimension": "ranges",
+        "description": "speechiness unit interval [0.0, 1.0]"
+      }
+    },
+    {
+      "expectation_type": "expect_column_values_to_be_between",
+      "kwargs": {
+        "column": "acousticness",
+        "min_value": 0.0,
+        "max_value": 1.0
+      },
+      "meta": {
+        "dimension": "ranges",
+        "description": "acousticness unit interval [0.0, 1.0]"
+      }
+    },
+    {
+      "expectation_type": "expect_column_values_to_be_between",
+      "kwargs": {
+        "column": "instrumentalness",
+        "min_value": 0.0,
+        "max_value": 1.0
+      },
+      "meta": {
+        "dimension": "ranges",
+        "description": "instrumentalness unit interval [0.0, 1.0]"
+      }
+    },
+    {
+      "expectation_type": "expect_column_values_to_be_between",
+      "kwargs": {
+        "column": "liveness",
+        "min_value": 0.0,
+        "max_value": 1.0
+      },
+      "meta": {
+        "dimension": "ranges",
+        "description": "liveness unit interval [0.0, 1.0]"
+      }
+    },
+    {
+      "expectation_type": "expect_column_values_to_be_between",
+      "kwargs": {
+        "column": "valence",
+        "min_value": 0.0,
+        "max_value": 1.0
+      },
+      "meta": {
+        "dimension": "ranges",
+        "description": "valence unit interval [0.0, 1.0]"
+      }
+    },
+    {
+      "expectation_type": "expect_column_values_to_be_between",
+      "kwargs": {
+        "column": "loudness",
+        "min_value": -60.0,
+        "max_value": 10.0
+      },
+      "meta": {
+        "dimension": "ranges",
+        "description": "loudness in valid dB range [-60.0, 10.0]"
+      }
+    },
+    {
+      "expectation_type": "expect_column_values_to_be_between",
+      "kwargs": {
+        "column": "key",
+        "min_value": 0,
+        "max_value": 11
+      },
+      "meta": {
+        "dimension": "ranges",
+        "description": "pitch key must be in pitch class [0, 11]"
+      }
+    },
+    {
+      "expectation_type": "expect_column_values_to_be_in_set",
+      "kwargs": {
+        "column": "mode",
+        "value_set": [
+          0,
+          1
+        ]
+      },
+      "meta": {
+        "dimension": "ranges",
+        "description": "mode must be 0 (minor) or 1 (major)"
+      }
+    },
+    {
+      "expectation_type": "expect_column_values_to_be_between",
+      "kwargs": {
+        "column": "tempo",
+        "min_value": 0.0,
+        "max_value": 300.0,
+        "allow_null": true
+      },
+      "meta": {
+        "dimension": "ranges",
+        "description": "tempo must be > 0 and <= 300 BPM (0 sentinels set to null)"
+      }
+    }
+  ],
+  "ge_cloud_id": null,
+  "meta": {
+    "great_expectations_version": "1.24.1",
+    "author": "Member 4 (Data Quality & Workflow Orchestration)",
+    "suite_name": "silver_tracks_suite"
+  }
+}

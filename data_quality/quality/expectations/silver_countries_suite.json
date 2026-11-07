@@ -1,0 +1,64 @@
+{
+  "data_asset_type": null,
+  "expectation_suite_name": "silver_countries_suite",
+  "expectations": [
+    {
+      "expectation_type": "expect_column_values_to_not_be_null",
+      "kwargs": {
+        "column": "iso_alpha2"
+      },
+      "meta": {
+        "dimension": "nulls",
+        "description": "iso_alpha2 must not be null (Namibia 'NA' recovered)"
+      }
+    },
+    {
+      "expectation_type": "expect_column_values_to_not_be_null",
+      "kwargs": {
+        "column": "iso_alpha3"
+      },
+      "meta": {
+        "dimension": "nulls",
+        "description": "iso_alpha3 must not be null"
+      }
+    },
+    {
+      "expectation_type": "expect_column_values_to_be_unique",
+      "kwargs": {
+        "column": "iso_alpha3"
+      },
+      "meta": {
+        "dimension": "duplicates",
+        "description": "iso_alpha3 must be unique primary key"
+      }
+    },
+    {
+      "expectation_type": "expect_column_value_lengths_to_equal",
+      "kwargs": {
+        "column": "iso_alpha2",
+        "value": 2
+      },
+      "meta": {
+        "dimension": "format",
+        "description": "iso_alpha2 must be exactly 2 characters"
+      }
+    },
+    {
+      "expectation_type": "expect_column_value_lengths_to_equal",
+      "kwargs": {
+        "column": "iso_alpha3",
+        "value": 3
+      },
+      "meta": {
+        "dimension": "format",
+        "description": "iso_alpha3 must be exactly 3 characters"
+      }
+    }
+  ],
+  "ge_cloud_id": null,
+  "meta": {
+    "great_expectations_version": "1.24.1",
+    "author": "Member 4 (Data Quality & Workflow Orchestration)",
+    "suite_name": "silver_countries_suite"
+  }
+}

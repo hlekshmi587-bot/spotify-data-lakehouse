@@ -1,0 +1,150 @@
+version: 2
+
+models:
+  - name: dim_date
+    description: "Calendar dimension. One row per day for every year that has chart data. date_key is yyyymmdd."
+    columns:
+      - name: date_key
+        description: "Surrogate/natural key yyyymmdd (equals Member 2's chart_date_id)."
+        data_tests: [unique, not_null]
+      - name: full_date
+        data_tests: [unique, not_null]
+      - name: quarter
+        data_tests:
+          - accepted_range: {arguments: {min_value: 1, max_value: 4}}
+      - name: month
+        data_tests:
+          - accepted_range: {arguments: {min_value: 1, max_value: 12}}
+      - name: season
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ['Winter', 'Spring', 'Summer', 'Autumn']
+
+  - name: dim_chart_type
+    description: "Chart type dimension (top200 / viral50)."
+    columns:
+      - name: chart_type_key
+        data_tests: [unique, not_null]
+      - name: chart_type
+        data_tests: [unique, not_null]
+
+  - name: dim_country
+    description: "249 ISO countries/territories plus a Global row (country_key = 0, is_global = true)."
+    columns:
+      - name: country_key
+        data_tests: [unique, not_null]
+      - name: country_code
+        data_tests: [unique, not_null]
+      - name: country_name
+        data_tests: [not_null]
+      - name: continent
+        data_tests: [not_null]
+
+  - name: dim_track
+    description: "Catalogue tracks + charted tracks missing from the catalogue (is_in_catalogue = false, no audio features)."
+    columns:
+      - name: track_key
+        data_tests: [unique, not_null]
+      - name: track_id
+        data_tests: [unique, not_null]
+      - name: track_name
+        data_tests: [not_null]
+      - name: popularity
+        data_tests:
+          - accepted_range: {arguments: {min_value: 0, max_value: 100}}
+      - name: danceability
+        data_tests:
+          - accepted_range: {arguments: {min_value: 0, max_value: 1}}
+      - name: energy
+        data_tests:
+          - accepted_range: {arguments: {min_value: 0, max_value: 1}}
+      - name: valence
+        data_tests:
+          - accepted_range: {arguments: {min_value: 0, max_value: 1}}
+      - name: tempo
+        data_tests:
+          - accepted_range: {arguments: {min_value: 1, max_value: 300}}
+      - name: mood_quadrant
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ['Happy / Energetic', 'Tense / Angry', 'Calm / Peaceful', 'Sad / Melancholic']
+
+  - name: dim_genre
+    description: "One row per genre label (114)."
+    columns:
+      - name: genre_key
+        data_tests: [unique, not_null]
+      - name: genre_name
+        data_tests: [unique, not_null]
+
+  - name: dim_artist
+    description: "One row per distinct artist name (case-insensitive). No source artist id exists."
+    columns:
+      - name: artist_key
+        data_tests: [unique, not_null]
+      - name: artist_name_key
+        data_tests: [unique, not_null]
+
+  - name: bridge_track_genre
+    description: "Track x genre (many-to-many). weighting_factor = 1/genre_count."
+    columns:
+      - name: track_key
+        data_tests:
+          - not_null
+          - relationships: {arguments: {to: ref('dim_track'), field: track_key}}
+      - name: genre_key
+        data_tests:
+          - not_null
+          - relationships: {arguments: {to: ref('dim_genre'), field: genre_key}}
+      - name: weighting_factor
+        data_tests:
+          - accepted_range: {arguments: {min_value: 0.0000001, max_value: 1}}
+
+  - name: bridge_track_artist
+    description: "Track x artist (many-to-many). credit_weight = 1/artist_count."
+    columns:
+      - name: track_key
+        data_tests:
+          - not_null
+          - relationships: {arguments: {to: ref('dim_track'), field: track_key}}
+      - name: artist_key
+        data_tests:
+          - not_null
+          - relationships: {arguments: {to: ref('dim_artist'), field: artist_key}}
+      - name: credit_weight
+        data_tests:
+          - accepted_range: {arguments: {min_value: 0.0000001, max_value: 1}}
+
+  - name: fact_chart
+    description: "Grain: one chart entry (date x region x chart type x rank). 50,000 rows."
+    columns:
+      - name: chart_record_id
+        data_tests: [unique, not_null]
+      - name: date_key
+        data_tests:
+          - not_null
+          - relationships: {arguments: {to: ref('dim_date'), field: date_key}}
+      - name: country_key
+        data_tests:
+          - not_null
+          - relationships: {arguments: {to: ref('dim_country'), field: country_key}}
+      - name: track_key
+        data_tests:
+          - not_null
+          - relationships: {arguments: {to: ref('dim_track'), field: track_key}}
+      - name: chart_type_key
+        data_tests:
+          - not_null
+          - relationships: {arguments: {to: ref('dim_chart_type'), field: chart_type_key}}
+      - name: chart_rank
+        data_tests:
+          - not_null
+          - accepted_range: {arguments: {min_value: 1, max_value: 200}}
+      - name: streams
+        data_tests:
+          - accepted_range: {arguments: {min_value: 0}}
+      - name: chart_points
+        data_tests:
+          - accepted_range: {arguments: {min_value: 1, max_value: 200}}

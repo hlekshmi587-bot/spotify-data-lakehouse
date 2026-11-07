@@ -1,0 +1,84 @@
+{
+  "data_asset_type": null,
+  "expectation_suite_name": "gold_enriched_charts_suite",
+  "expectations": [
+    {
+      "expectation_type": "expect_column_values_to_not_be_null",
+      "kwargs": {
+        "column": "chart_record_id"
+      },
+      "meta": {
+        "dimension": "nulls",
+        "description": "chart_record_id SHA-256 key must not be null"
+      }
+    },
+    {
+      "expectation_type": "expect_column_values_to_be_unique",
+      "kwargs": {
+        "column": "chart_record_id"
+      },
+      "meta": {
+        "dimension": "duplicates",
+        "description": "chart_record_id must be unique across all 50,000 chart entries"
+      }
+    },
+    {
+      "expectation_type": "expect_column_values_to_be_between",
+      "kwargs": {
+        "column": "chart_year",
+        "min_value": 2010,
+        "max_value": 2030
+      },
+      "meta": {
+        "dimension": "dates",
+        "description": "chart_year must be within 2010..2030"
+      }
+    },
+    {
+      "expectation_type": "expect_column_values_to_be_between",
+      "kwargs": {
+        "column": "chart_month",
+        "min_value": 1,
+        "max_value": 12
+      },
+      "meta": {
+        "dimension": "dates",
+        "description": "chart_month must be 1..12"
+      }
+    },
+    {
+      "expectation_type": "expect_column_values_to_be_in_set",
+      "kwargs": {
+        "column": "chart_season",
+        "value_set": [
+          "winter",
+          "spring",
+          "summer",
+          "autumn"
+        ]
+      },
+      "meta": {
+        "dimension": "dates",
+        "description": "chart_season must be winter, spring, summer, or autumn"
+      }
+    },
+    {
+      "expectation_type": "expect_column_values_to_be_between",
+      "kwargs": {
+        "column": "chart_rank",
+        "min_value": 1,
+        "max_value": 200
+      },
+      "meta": {
+        "dimension": "chart_positions",
+        "description": "chart_rank in Gold must be 1..200"
+      }
+    }
+  ],
+  "ge_cloud_id": null,
+  "meta": {
+    "great_expectations_version": "1.24.1",
+    "author": "Member 4 (Data Quality & Workflow Orchestration)",
+    "suite_name": "gold_enriched_charts_suite"
+  }
+}
