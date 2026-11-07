@@ -8,7 +8,9 @@ __pycache__/
 *.pyd
 .Python
 
-# Virtual environments
+# ==========================================
+# VIRTUAL ENVIRONMENTS
+# ==========================================
 .venv/
 .venv-*/
 venv/
@@ -41,6 +43,7 @@ htmlcov/
 # ==========================================
 *.log
 logs/
+data/logs/
 
 # ==========================================
 # AIRFLOW
@@ -51,11 +54,12 @@ airflow-webserver.pid
 airflow-scheduler.pid
 
 # ==========================================
-# SPARK
+# SPARK / HADOOP
 # ==========================================
 spark-warehouse/
 metastore_db/
 derby.log
+*.crc
 checkpoint/
 checkpoints/
 
@@ -78,11 +82,12 @@ data/gold/
 data/intermediate/
 data/processed/
 
+Dataset.zip
 *.parquet
 *.snappy
 
 # ==========================================
-# GREAT EXPECTATIONS GENERATED FILES
+# GREAT EXPECTATIONS
 # ==========================================
 uncommitted/
 validations/
